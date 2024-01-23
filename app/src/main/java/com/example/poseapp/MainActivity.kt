@@ -21,7 +21,6 @@ import androidx.annotation.OptIn
 import androidx.annotation.RequiresApi
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
-import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCapture.OnImageCapturedCallback
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
@@ -41,6 +40,7 @@ import androidx.compose.material.icons.filled.Cameraswitch
 import androidx.compose.material.icons.filled.Photo
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -70,9 +70,6 @@ class MainActivity : ComponentActivity() {
     private val positions = listOf(0, 11, 12, 13, 14, 15, 16, 23, 24, 25, 26, 27, 28, 33, 34)
     private val start = listOf(0, 33, 33, 11, 12, 13, 14, 33, 34, 34, 23, 24, 25, 26)
     private val end = listOf(33, 11, 12, 13, 14, 15, 16, 34, 23, 24, 25, 26, 27, 28)
-//    private val positions = listOf(0, 11, 13, 15, 23, 25, 27, 33, 34)
-//    private val start = listOf(0, 33, 11, 13, 33, 34, 23, 25)
-//    private val end = listOf(33, 11, 13, 15, 34, 23, 25, 27)
     private val angleStart = listOf(0, 0, 33, 33, 11, 12, 0, 33, 33, 34, 34, 23, 24)
     private val angleCenter = listOf(33, 33, 11, 12, 13, 14, 33, 34, 34, 23, 24, 25, 26)
     private val angleEnd = listOf(11, 12, 13, 14, 15, 16, 34, 23, 24, 25, 26, 27, 28)
@@ -86,6 +83,7 @@ class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalGetImage::class) override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (!hasRequiredPermissions()) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, 0)
             Log.d("Camera Permission",
@@ -196,7 +194,7 @@ class MainActivity : ComponentActivity() {
                 Column (
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.Gray)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
                 ){
                     Row(
                         modifier = Modifier
@@ -205,7 +203,7 @@ class MainActivity : ComponentActivity() {
                             .weight(1f),
                         horizontalArrangement = Arrangement.Center
                     ){
-                        Text(text = "PerfectPosePro", color = Color.White)
+                        Text(text = "PerfectPosePro", color = MaterialTheme.colorScheme.onPrimaryContainer)
                     }
 
                     Box(
@@ -306,9 +304,6 @@ class MainActivity : ComponentActivity() {
 //                            Log.d("Draw", imageX.size.toString() + " " + imageY.size.toString())
 //                            Log.d("Size", this.size.width.toString() + " " + this.size.height.toString())
                             if (imageX.isNotEmpty() && imageY.isNotEmpty()) {
-//                                val scale = min(this.size.height / imageHeight,  this.size.width / imageWidth)
-//                                val xOffset = (1 - scale) / 2 * this.size.width
-//                                val yOffset = (1 - scale) / 2 * this.size.height
                                 val scale = 1
                                 val xOffset = 0
                                 val yOffset = 0
@@ -317,7 +312,7 @@ class MainActivity : ComponentActivity() {
 //                                    Log.d(i.toString(), imageX[i].toString() + " " + imageY[i].toString())
                                     if (imageX[i] in 0.0..1.0 && imageY[i] in 0.0..1.0) {
                                         drawCircle(
-                                            color = Color.Green,
+                                            color = Color.White,
                                             radius = 10f,
                                             center = Offset(
                                                 this.size.width * imageX[i] * scale + xOffset,
@@ -330,7 +325,7 @@ class MainActivity : ComponentActivity() {
                                     if (imageX[start[i]] in 0.0..1.0 && imageY[start[i]] in 0.0..1.0 &&
                                         imageX[end[i]] in 0.0..1.0 && imageY[end[i]] in 0.0..1.0) {
                                         drawLine(
-                                            color = Color.Green,
+                                            color = Color.White,
                                             start = Offset(
                                                 this.size.width * imageX[start[i]] * scale + xOffset,
                                                 this.size.height * imageY[start[i]] * scale + yOffset
@@ -344,16 +339,6 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             }
-//                            drawCircle(
-//                                color = Color.Blue,
-//                                radius = 10f,
-//                                center = Offset(0f, 0f)
-//                            )
-//                            drawCircle(
-//                                color = Color.Blue,
-//                                radius = 10f,
-//                                center = Offset(1080f, 1763f)
-//                            )
                         }
 
                         Canvas(
@@ -363,9 +348,6 @@ class MainActivity : ComponentActivity() {
 //                            Log.d("Draw", bodyX.size.toString() + " " + bodyY.size.toString())
 //                            Log.d("Size", this.size.width.toString() + " " + this.size.height.toString())
                             if (bodyX.isNotEmpty() && bodyY.isNotEmpty()) {
-//                                val scale = min(this.size.height / imageHeight,  this.size.width / imageWidth)
-//                                val xOffset = (1 - scale) / 2 * this.size.width
-//                                val yOffset = (1 - scale) / 2 * this.size.height
                                 val scale = 1
                                 val xOffset = 0
                                 val yOffset = 0
@@ -374,7 +356,7 @@ class MainActivity : ComponentActivity() {
 //                                    Log.d(i.toString(), bodyX[i].toString() + " " + bodyY[i].toString())
                                     if (bodyX[i] in 0.0..1.0 && bodyY[i] in 0.0..1.0) {
                                         drawCircle(
-                                            color = Color.White,
+                                            color = Color.Black,
                                             radius = 10f,
                                             center = Offset(
                                                 this.size.width * bodyX[i] * scale + xOffset,
@@ -385,9 +367,9 @@ class MainActivity : ComponentActivity() {
                                 }
                                 for (i in start.indices) {
                                     val color = if (start[i] in goodAngles || (i == 0 && 33 in goodAngles)) {
-                                        Color.Black
+                                        Color.Green
                                     } else {
-                                        Color.White
+                                        Color.Red
                                     }
                                     if (bodyX[start[i]] in 0.0..1.0 && bodyY[start[i]] in 0.0..1.0 &&
                                         bodyX[end[i]] in 0.0..1.0 && bodyY[end[i]] in 0.0..1.0) {
@@ -405,34 +387,6 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
                                 }
-//                                val minX = bodyX.min() * this.size.width
-//                                val maxX = bodyX.max() * this.size.width
-//                                val minY = bodyY.min() * this.size.height
-//                                val maxY = bodyY.max() * this.size.height
-//                                drawLine(
-//                                    color = Color.White,
-//                                    start = Offset(minX, minY),
-//                                    end = Offset(minX, maxY),
-//                                    strokeWidth = 10f
-//                                )
-//                                drawLine(
-//                                    color = Color.White,
-//                                    start = Offset(minX, maxY),
-//                                    end = Offset(maxX, maxY),
-//                                    strokeWidth = 10f
-//                                )
-//                                drawLine(
-//                                    color = Color.White,
-//                                    start = Offset(maxX, maxY),
-//                                    end = Offset(maxX, minY),
-//                                    strokeWidth = 10f
-//                                )
-//                                drawLine(
-//                                    color = Color.White,
-//                                    start = Offset(maxX, minY),
-//                                    end = Offset(minX, minY),
-//                                    strokeWidth = 10f
-//                                )
                             }
                         }
 
